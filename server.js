@@ -1,5 +1,11 @@
-var express = require("express");
-var mongoose = require("mongoose");
-var app = express();
-var server = require("http").Server(app);
-var io = require("socket.io")(server);
+var express = require('express'),
+	app = express(),
+	http = require('http').Server(app);
+
+app.get('/', function(req, res){
+  res.send('<h1>Hello world</h1>');
+});
+
+http.listen(3000, function(){
+  console.log('listening on *:3000');
+});

@@ -3,8 +3,8 @@ angular
 	.module('chatApp')
 	.controller('appCtrl', appCtrl);
 
-appCtrl.$inject = ["$scope"];
-function appCtrl($scope){
+appCtrl.$inject = ['$scope','$mdToast','$timeout'];
+function appCtrl($scope, $mdToast, $timeout){
 	var socket = io();
 	$scope.msg = {
 		sender:'',
@@ -23,9 +23,21 @@ function appCtrl($scope){
 
 	socket.on('chat-message',function(msg){
 		$scope.msgList.push(msg);
-		$scope.$apply();//update
-		console.log(msg);
+		$scope.$apply();
+		$timeout(function() {
+      		var scroller = document.getElementById("chat-content-box");
+      		scroller.scrollTop = scroller.scrollHeight;
+    	}, 0, false);
 	});
+
+	socket.on('connection', function(){
+		$mdToast.show(
+      		$mdToast.simple()
+        	.textContent('A user joins the chat!')
+        	.position('top right')
+        	.hideDelay(3000)
+    	);
+	})
 }
 
 

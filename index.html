@@ -1,18 +1,49 @@
 <!doctype html>
 <html>
-  <head>
-    <title>Socket.IO chat</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/app.js"></script>
-    <script src="/js/app.controller.js"></script>
-  </head>
-  <body ng-app="chatApp" ng-controller="appCtrl">
-    <ul id="messages"></ul>
-    <form ng-submit="onSend()">
-      <input autocomplete="off" ng-model="msg"/>
-      <button type="submit">Send</button>
-    </form>
-  </body>
+    <head>
+        <title>Socket.IO chat</title>
+        <!-- CSS -->
+        <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+        <!-- Angular Library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+        <!-- Angular Material Library -->
+        <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+        <!-- Socket.io -->
+        <script src="/socket.io/socket.io.js"></script>
+        <!-- App -->
+        <script src="/js/app.js"></script>
+        <script src="/js/app.controller.js"></script>
+    </head>
+    <body ng-app="chatApp" ng-controller="appCtrl">
+        <div>
+            <!--Sub Header-->
+            <md-toolbar class="chat-header">
+                <div class="md-toolbar-tools">General Chat</div>
+            </md-toolbar>
+            <!--Content-->
+            <md-content md-theme="altTheme" class="chat-content-box">
+                <md-list flex>
+                    <md-list-item class = "md-3-line" ng-repeat="_msg in msgList track by $index">
+                        <img src="http://1.viki.io/a/ph/avatar_profile-acc6c5a5a9d35bd7d292dfd776cfec76.png?s=60x60&cb=1" class="md-avatar">
+                        <div class="md-list-item-text">
+                            <h3>{{_msg.sender}}</h3>
+                            <p>{{_msg.timeStamp | date : 'h:mma'}}</p>
+                            <h3>{{_msg.content}}</h3>
+                        </div>
+                    </md-list-item>
+                </md-list>
+            </md-content> 
+            <!-- Chat Input -->
+            <md-toolbar class="chat-footer">
+            <form ng-submit="onSend(msg)" layout="row">
+                    <input class="chat-footer-input" ng-model="msg.content"/>
+                    <md-button class="md-accent md-raised chat-footer-button" type="submit">Send</md-button>    
+                </form>
+            </md-toolbar>                
+        </div>
+    </body>
 </html>

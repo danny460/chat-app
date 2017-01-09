@@ -9,6 +9,7 @@ app.use('/', express.static(__dirname));
 
 io.on('connection', function(socket){
 	console.log('a user is connected');
+	socket.broadcast.emit('connection','');
 	socket.on('chat-message', function(msg){
     	io.emit('chat-message', msg);
   	});

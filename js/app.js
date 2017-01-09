@@ -1,1 +1,1 @@
-angular.module("chatApp",[]);
+angular.module("chatApp",['ngMaterial']);

@@ -1,7 +1,9 @@
 ##### socket.io chat app demo
->TODO
+>**TODO**
 >Add session storage
+
 >Multiple chatroom
+
 >**Chat Features:**
 >>- Show user is typing
 >>- Show list of online users in chatroom

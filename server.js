@@ -10,11 +10,17 @@ app.use('/', express.static(__dirname));
 io.on('connection', function(socket){
 	console.log('a user is connected');
 	socket.broadcast.emit('connection','');
+	//
 	socket.on('chat-message', function(msg){
     	io.emit('chat-message', msg);
   	});
+  	//
+  	socket.on('typing', function(msg){
+  		socket.broadcast.emit('typing',msg);
+  	});
+  	//
 	socket.on('disconnect', function(){
-		console.log('a user disconnected'); 
+		console.log("a user disconnected");
 	});
 });
 

@@ -5,9 +5,11 @@ angular
 
 appCtrl.$inject = ['$scope','$mdToast','$mdDialog','$timeout'];
 function appCtrl($scope, $mdToast, $mdDialog, $timeout){
+	var vm = this;
 	window.onload = popForUsername();
-	//
 	var socket = io();
+	vm.isTypingRemote = false;
+	vm.isTypingRemoteUsername = '';
 	$scope.msgList = [];
 
 	$scope.onSend = function(msg){
@@ -16,6 +18,22 @@ function appCtrl($scope, $mdToast, $mdDialog, $timeout){
 		socket.emit('chat-message',$scope.msg);
 		$scope.msg.content = '';
 	};
+
+	$scope.onTyping = function(){
+		var msg = {
+			sender: $scope.msg.sender,
+			isTyping: true
+		}
+		socket.emit('typing',msg);
+	}	
+
+	$scope.onExitTyping = function(msg){
+		var msg = {
+			sender: $scope.msg.sender,
+			isTyping: false
+		}
+		socket.emit('typing',msg);
+	}
 
 	socket.on('chat-message',function(msg){
 		$scope.msgList.push(msg);
@@ -33,6 +51,12 @@ function appCtrl($scope, $mdToast, $mdDialog, $timeout){
         	.position('top right')
         	.hideDelay(3000)
     	);
+	});
+
+	socket.on('typing', function(msg){
+		console.log(msg.sender,"typing:",msg.isTyping);
+		vm.isTypingRemote = msg.isTyping;
+		vm.isTypingRemoteUsername = msg.sender;
 	});
 
 	function popForUsername() {

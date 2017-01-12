@@ -3,20 +3,16 @@ angular
 	.module('chatApp')
 	.controller('appCtrl', appCtrl);
 
-appCtrl.$inject = ['$scope','$mdToast','$timeout'];
-function appCtrl($scope, $mdToast, $timeout){
+appCtrl.$inject = ['$scope','$mdToast','$mdDialog','$timeout'];
+function appCtrl($scope, $mdToast, $mdDialog, $timeout){
+	window.onload = popForUsername();
+	//
 	var socket = io();
-	$scope.msg = {
-		sender:'',
-		timeStamp: null,
-		content:''
-	};
 	$scope.msgList = [];
 
 	$scope.onSend = function(msg){
 		if(msg.content === '') return;
 		msg.timeStamp = Date();
-		msg.sender = $scope.username ? username : "unknown user";
 		socket.emit('chat-message',$scope.msg);
 		$scope.msg.content = '';
 	};
@@ -37,7 +33,30 @@ function appCtrl($scope, $mdToast, $timeout){
         	.position('top right')
         	.hideDelay(3000)
     	);
-	})
+	});
+
+	function popForUsername() {
+		$mdDialog.show({
+			controller: DialogController,
+			templateUrl: './template/prompt.template.html',
+			parent: angular.element(document.body),
+			clickOutsideToClose:false,
+			fullscreen: true // Only for -xs, -sm breakpoints.
+		})
+		.then(function(username) {
+			$scope.msg = {
+				sender: username ? username : "unknown user",
+				timeStamp: null,
+				content:''
+			};
+		});
+
+		function DialogController($scope, $mdDialog){
+			$scope.onClickOK = function(username) {
+      			$mdDialog.hide(username);
+    		};
+		}
+	}
 }
 
 

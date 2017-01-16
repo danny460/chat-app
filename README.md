@@ -5,10 +5,11 @@
 * Multiple chatroom
 
 * **Chat Features:**
-	* Show user is typing
-	* Show list of online users in chatroom
-	* Add private peer messaging
-	* Own message shown differently
-	* @User functionality
-	* Revoke sent message
+	* ~~Show user is typing~~
+	* Show list of online users in chatroom.
+	* New user can see past chat.
+	* Add private peer messaging.
+	* Sender's message is shown differently on sender's view.
+	* @User functionality.
+	* Revoke sent message.
 ...

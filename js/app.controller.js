@@ -5,11 +5,10 @@ angular
 
 appCtrl.$inject = ['$scope','$mdToast','$mdDialog','$timeout'];
 function appCtrl($scope, $mdToast, $mdDialog, $timeout){
-	var vm = this;
 	window.onload = popForUsername();
 	var socket = io();
-	vm.isTypingRemote = false;
-	vm.isTypingRemoteUsername = '';
+	$scope.isTypingRemote = false;
+	$scope.isTypingRemoteUsername = '';
 	$scope.msgList = [];
 
 	$scope.onSend = function(msg){
@@ -55,8 +54,9 @@ function appCtrl($scope, $mdToast, $mdDialog, $timeout){
 
 	socket.on('typing', function(msg){
 		console.log(msg.sender,"typing:",msg.isTyping);
-		vm.isTypingRemote = msg.isTyping;
-		vm.isTypingRemoteUsername = msg.sender;
+		$scope.isTypingRemote = msg.isTyping;
+		$scope.isTypingRemoteUsername = msg.sender;
+		$scope.$apply();
 	});
 
 	function popForUsername() {
